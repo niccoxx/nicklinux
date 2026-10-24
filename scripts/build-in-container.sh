@@ -4,7 +4,7 @@ set -euo pipefail
 cd /work
 export DISTRO_NAME DISTRO_ID DISTRO_URL KERNEL_SOURCE ARCH
 
-dnf -y install lorax pykickstart rpm-build createrepo_c xorriso
+dnf -y install lorax anaconda-tui pykickstart rpm-build createrepo_c xorriso
 RELEASEVER=$(rpm -E %fedora)
 echo ">> Base Fedora $RELEASEVER, kernel: $KERNEL_SOURCE"
 

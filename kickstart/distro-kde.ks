@@ -16,7 +16,7 @@ network --bootproto=dhcp --device=link --activate
 rootpw --lock --iscrypted locked
 shutdown
 
-repo --name=fedora --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch
+url --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch
 repo --name=updates --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?repo=updates-released-f$releasever&arch=$basearch
 # Repository locale con il pacchetto di branding, creato da build.sh
 repo --name=distro-local --baseurl=file:///work/out/localrepo

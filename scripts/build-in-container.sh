@@ -2,6 +2,10 @@
 # Eseguito dentro il container Fedora da build.sh
 set -euo pipefail
 cd /work
+
+# In caso di errore copia i log di anaconda/dnf in out/anaconda
+save_logs() { mkdir -p /work/out/anaconda; cp -a /tmp/*.log /tmp/dnf* /var/tmp/*.log /work/out/anaconda/ 2>/dev/null || true; chmod -R a+rX /work/out || true; }
+trap save_logs EXIT
 export DISTRO_NAME DISTRO_ID DISTRO_URL KERNEL_SOURCE ARCH
 
 dnf -y install lorax anaconda-tui pykickstart rpm-build createrepo_c xorriso

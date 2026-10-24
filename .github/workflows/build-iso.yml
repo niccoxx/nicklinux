@@ -1,0 +1,43 @@
+name: Build ISO
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  iso:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Libera spazio sul runner
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          sudo docker image prune -af
+          df -h /
+
+      - name: Costruisci la ISO
+        run: sudo ENGINE=docker ./build.sh
+
+      - name: Checksum
+        run: cd out/result && sudo sha256sum *.iso | sudo tee SHA256SUMS
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: iso
+          path: |
+            out/result/*.iso
+            out/result/SHA256SUMS
+          compression-level: 0
+          retention-days: 14
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: logs
+          path: |
+            out/*.log
+            out/flat.ks
+            /var/tmp/*.log

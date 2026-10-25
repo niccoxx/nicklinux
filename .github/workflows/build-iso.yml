@@ -2,6 +2,12 @@ name: Build ISO
 
 on:
   workflow_dispatch:
+    inputs:
+      kernel:
+        description: "Kernel: vanilla (kernel.org) o fedora"
+        default: vanilla
+        type: choice
+        options: [vanilla, fedora]
   push:
     branches: [main]
 
@@ -21,6 +27,8 @@ jobs:
       - name: Costruisci la ISO
         run: |
           set -o pipefail
+          [ -n "${{ inputs.kernel }}" ] && sed -i 's/^KERNEL_SOURCE=.*/KERNEL_SOURCE="${{ inputs.kernel }}"/' config.env
+          grep KERNEL_SOURCE config.env
           sudo ENGINE=docker bash ./build.sh 2>&1 | tee build.log
 
       - name: Riassunto errori
@@ -38,7 +46,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: iso
+          name: iso-${{ inputs.kernel || 'vanilla' }}
           path: |
             out/result/*.iso
             out/result/SHA256SUMS

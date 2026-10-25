@@ -29,24 +29,14 @@ DISTRO_ID="%{distro_id}"
 DISTRO_URL="%{distro_url}"
 CONF
 
-# Impostazioni di default di Plasma
-install -d %{buildroot}%{_sysconfdir}/xdg
-cat > %{buildroot}%{_sysconfdir}/xdg/kcm-about-distrorc <<CONF
-[General]
-Name=%{distro_name}
-Website=%{distro_url}
-Variant=KDE Plasma
-CONF
-
 %post
 %{_libexecdir}/distro-branding/apply || :
 
-%triggerin -- fedora-release-common
+%triggerin -- fedora-release-common, kde-settings
 %{_libexecdir}/distro-branding/apply || :
 
 %files
 %{_libexecdir}/distro-branding/
-%config(noreplace) %{_sysconfdir}/xdg/kcm-about-distrorc
 
 %changelog
 * Sat Oct 24 2026 Distro Builder <builder@example.org> - 1.0-1

@@ -26,3 +26,13 @@ printf '%s %s\nKernel \\r su \\m (\\l)\n\n' "$DISTRO_NAME" "$VERSION_ID" > /etc/
 if [ -f /etc/default/grub ]; then
     sed -i "s/^GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR=\"$DISTRO_NAME\"/" /etc/default/grub
 fi
+
+# "Informazioni sul sistema" di Plasma (il file appartiene a kde-settings)
+if [ -d /etc/xdg ]; then
+    cat > /etc/xdg/kcm-about-distrorc <<KDE
+[General]
+Name=$DISTRO_NAME
+Website=$DISTRO_URL
+Variant=KDE Plasma
+KDE
+fi

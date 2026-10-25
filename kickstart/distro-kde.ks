@@ -71,8 +71,6 @@ dnf5-plugins
 distro-branding
 
 # Alleggerimento
--@dial-up
--@input-methods
 -gnome-boxes
 %end
 

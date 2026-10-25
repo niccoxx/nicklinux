@@ -13,7 +13,7 @@ clearpart --all
 part / --size 12288 --fstype ext4
 services --enabled=NetworkManager,ModemManager --disabled=sshd
 network --bootproto=dhcp --device=link --activate
-rootpw --lock --iscrypted locked
+rootpw --lock
 shutdown
 
 url --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch
